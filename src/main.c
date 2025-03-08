@@ -1,35 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/btree.h"
-#include "../include/node.h"
 
 int main(int argc, char *argv[])
 {
-    Node *c1 = node_create(0, 4, true);
-    Node *c2 = node_create(1, 4, true);
-    Node *c3 = node_create(5, 4, true);
-    Node *c4 = node_create(8, 4, true);
+    int order = 5;
+    BTree *btree = btree_create("btree.bin", order);
 
-    FILE *fp = fopen("btree.bin", "w+b");
+    btree_insert(btree, 20, 20);
+    btree_insert(btree, 75, 75);
+    btree_insert(btree, 77, 77);
+    btree_insert(btree, 78, 78);
+    btree_insert(btree, 55, 55);
+    btree_insert(btree, 62, 62);
+    btree_insert(btree, 51, 51);
+    btree_insert(btree, 40, 40);
+    btree_insert(btree, 60, 60);
+    btree_insert(btree, 45, 45);
+    btree_insert(btree, 15, 15);
+    btree_insert(btree, 2, 2);
+    btree_insert(btree, 42, 42);
+    btree_insert(btree, 10, 10);
+    btree_insert(btree, 13, 13);
+    btree_insert(btree, 100, 100);
+    btree_insert(btree, 23, 23);
+    btree_insert(btree, 44, 44);
+    btree_insert(btree, 11, 11);
+    btree_insert(btree, 9, 9);
+    btree_insert(btree, 18, 18);
+    btree_insert(btree, 5, 5);
+    btree_insert(btree, 75, 75);
 
-    if (!fp)
+    for (int i = 0; i < 101; i++)
     {
-        exit(1);
+        if (btree_search(btree, i))
+        {
+            printf("Chave %d encontrada!\n", i);
+        }
+        else
+        {
+            printf("Chave %d não encontrada!\n", i);
+        }
     }
 
-    disk_write(fp, c1, 4);
-    disk_write(fp, c2, 4);
-    disk_write(fp, c3, 4);
-    disk_write(fp, c4, 4);
+    btree_destroy(btree);
 
-    Node *c5 = disk_read(fp, 8, 4);
-
-    node_destroy(c1);
-    node_destroy(c2);
-    node_destroy(c3);
-    node_destroy(c4);
-    node_destroy(c5);
-
-    fclose(fp);
     return 0;
 }

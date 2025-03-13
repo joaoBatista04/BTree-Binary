@@ -1,7 +1,7 @@
-FILES = src/btree.c src/main.c
+FILES = src/queue.c src/btree.c src/main.c
 EXECUTABLE = trab2
 FLAGS = -lm -pedantic -Wall -g
-ENTRY_FILE = in/caso_teste_1.txt
+ENTRY_FILE = in/caso_teste_2.txt
 EXIT_FILE = saida.txt
 
 all:

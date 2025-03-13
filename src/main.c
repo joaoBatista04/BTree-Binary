@@ -4,46 +4,65 @@
 
 int main(int argc, char *argv[])
 {
-    int order = 5;
-    BTree *btree = btree_create("btree.bin", order);
+    int order;
+    int n_op;
 
-    btree_insert(btree, 20, 20);
-    btree_insert(btree, 75, 75);
-    btree_insert(btree, 77, 77);
-    btree_insert(btree, 78, 78);
-    btree_insert(btree, 55, 55);
-    btree_insert(btree, 62, 62);
-    btree_insert(btree, 51, 51);
-    btree_insert(btree, 40, 40);
-    btree_insert(btree, 60, 60);
-    btree_insert(btree, 45, 45);
-    btree_insert(btree, 15, 15);
-    btree_insert(btree, 2, 2);
-    btree_insert(btree, 42, 42);
-    btree_insert(btree, 10, 10);
-    btree_insert(btree, 13, 13);
-    btree_insert(btree, 100, 100);
-    btree_insert(btree, 23, 23);
-    btree_insert(btree, 44, 44);
-    btree_insert(btree, 11, 11);
-    btree_insert(btree, 9, 9);
-    btree_insert(btree, 18, 18);
-    btree_insert(btree, 5, 5);
-    btree_insert(btree, 75, 75);
+    FILE *fp = fopen(argv[1], "r");
 
-    for (int i = 0; i < 101; i++)
+    if (!fp)
     {
-        if (btree_search(btree, i))
-        {
-            printf("Chave %d encontrada!\n", i);
-        }
-        else
-        {
-            printf("Chave %d não encontrada!\n", i);
-        }
+        perror("Couldn't open the entry file.\n");
+        exit(1);
     }
 
-    btree_destroy(btree);
+    fscanf(fp, "%d\n", &order);
+    fscanf(fp, "%d\n", &n_op);
+
+    BTree *bt = btree_create("btree.bin", order);
+
+    for (int i = 0; i < n_op; i++)
+    {
+        char op;
+        int key;
+        int record;
+        fscanf(fp, "%c %d", &op, &key);
+
+        if (op == 'I')
+        {
+            fscanf(fp, ", %d", &record);
+
+            btree_insert(bt, key, record);
+        }
+
+        if (op == 'B')
+        {
+            if (btree_search(bt, key))
+            {
+                printf("O REGISTRO ESTA NA ARVORE!\n");
+            }
+
+            else
+            {
+                printf("O REGISTRO NAO ESTA NA ARVORE!\n");
+            }
+        }
+
+        if (op == 'R')
+        {
+            btree_delete(bt, key);
+        }
+
+        fscanf(fp, "\n");
+    }
+
+    printf("\n-- ARVORE B\n");
+    btree_level_order_print(bt);
+
+    btree_destroy(bt);
+
+    fclose(fp);
+
+    remove("btree.bin");
 
     return 0;
 }

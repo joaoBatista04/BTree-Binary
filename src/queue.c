@@ -2,21 +2,18 @@
 #include <stdlib.h>
 #include "../include/queue.h"
 
-struct QueueNode
-{
+struct QueueNode {
     Node *n;
     QueueNode *next;
 };
 
-struct Queue
-{
+struct Queue {
     QueueNode *head;
     QueueNode *tail;
     int size;
 };
 
-Queue *queue_create()
-{
+Queue *queue_create(){
     Queue *q = (Queue *)malloc(sizeof(Queue));
 
     q->head = NULL;
@@ -26,26 +23,21 @@ Queue *queue_create()
     return q;
 }
 
-int queue_get_size(Queue *q)
-{
+int queue_get_size(Queue *q){
     return q->size;
 }
 
-void queue_enqueue(Queue *q, Node *n)
-{
+void queue_enqueue(Queue *q, Node *n){
     QueueNode *qn = (QueueNode *)malloc(sizeof(QueueNode));
 
     qn->n = n;
     qn->next = NULL;
 
-    if (q->tail == NULL)
-    {
+    if (!q->tail){
         q->head = qn;
         q->tail = qn;
     }
-
-    else
-    {
+    else{
         q->tail->next = qn;
         q->tail = qn;
     }
@@ -53,12 +45,9 @@ void queue_enqueue(Queue *q, Node *n)
     q->size++;
 }
 
-Node *queue_dequeue(Queue *q)
-{
-    if (q->head == NULL)
-    {
+Node *queue_dequeue(Queue *q){
+    if (!q->head)
         return NULL;
-    }
 
     QueueNode *temp = q->head;
     Node *n = temp->n;
@@ -66,9 +55,7 @@ Node *queue_dequeue(Queue *q)
     q->head = q->head->next;
 
     if (q->head == NULL)
-    {
         q->tail = NULL;
-    }
 
     free(temp);
 
@@ -77,20 +64,12 @@ Node *queue_dequeue(Queue *q)
     return n;
 }
 
-int queue_is_empty(Queue *q)
-{
-    if (q->head == NULL)
-    {
+int queue_is_empty(Queue *q){
+    if (!q->head)
         return 1;
-    }
-
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
-void queue_destroy(Queue *q)
-{
+void queue_destroy(Queue *q){
     free(q);
 }

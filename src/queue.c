@@ -2,18 +2,26 @@
 #include <stdlib.h>
 #include "../include/queue.h"
 
-struct QueueNode {
-    Node *n;
-    QueueNode *next;
+struct QueueNode
+{
+    Node *n;         // Queue's item is a node
+    QueueNode *next; // Pointer to next node in the Queue
 };
 
-struct Queue {
-    QueueNode *head;
-    QueueNode *tail;
-    int size;
+struct Queue
+{
+    QueueNode *head; // Reference to head of the queue
+    QueueNode *tail; // Reference to tail of the queue
+    int size;        // Get the size of the queue
 };
 
-Queue *queue_create(){
+/**
+ * @brief Create a queue and allocate memory to it
+ *
+ * @return Queue*
+ */
+Queue *queue_create()
+{
     Queue *q = (Queue *)malloc(sizeof(Queue));
 
     q->head = NULL;
@@ -23,21 +31,37 @@ Queue *queue_create(){
     return q;
 }
 
-int queue_get_size(Queue *q){
+/**
+ * @brief Get the size of the queue
+ *
+ * @param q
+ * @return int
+ */
+int queue_get_size(Queue *q)
+{
     return q->size;
 }
 
-void queue_enqueue(Queue *q, Node *n){
+/**
+ * @brief Enqueue a node
+ *
+ * @param q
+ * @param n
+ */
+void queue_enqueue(Queue *q, Node *n)
+{
     QueueNode *qn = (QueueNode *)malloc(sizeof(QueueNode));
 
     qn->n = n;
     qn->next = NULL;
 
-    if (!q->tail){
+    if (!q->tail)
+    {
         q->head = qn;
         q->tail = qn;
     }
-    else{
+    else
+    {
         q->tail->next = qn;
         q->tail = qn;
     }
@@ -45,7 +69,14 @@ void queue_enqueue(Queue *q, Node *n){
     q->size++;
 }
 
-Node *queue_dequeue(Queue *q){
+/**
+ * @brief Dequeue a node
+ *
+ * @param q
+ * @return Node*
+ */
+Node *queue_dequeue(Queue *q)
+{
     if (!q->head)
         return NULL;
 
@@ -64,12 +95,25 @@ Node *queue_dequeue(Queue *q){
     return n;
 }
 
-int queue_is_empty(Queue *q){
+/**
+ * @brief Verifiy if queue is empty
+ *
+ * @param q
+ * @return int
+ */
+int queue_is_empty(Queue *q)
+{
     if (!q->head)
         return 1;
     return 0;
 }
 
-void queue_destroy(Queue *q){
+/**
+ * @brief Free memory allocated to queue
+ *
+ * @param q
+ */
+void queue_destroy(Queue *q)
+{
     free(q);
 }

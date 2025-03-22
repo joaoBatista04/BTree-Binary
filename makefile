@@ -1,7 +1,7 @@
 FILES = src/queue.c src/btree.c src/main.c
 EXECUTABLE = trab2
 FLAGS = -lm -pedantic -Wall -g
-ENTRY_FILE = in/caso_teste_2.txt
+ENTRY_FILE = in/caso_teste_4.txt
 EXIT_FILE = saida.txt
 
 all:
@@ -9,9 +9,6 @@ all:
 
 run: 
 	@ ./$(EXECUTABLE) $(ENTRY_FILE) $(EXIT_FILE)
-
-diff:
-	@ diff saida.txt saida1.txt
 
 clean:
 	@ rm -f trab2 *.txt *.bin
